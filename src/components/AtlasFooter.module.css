@@ -22,15 +22,15 @@
 }
 
 .columnTitle {
-  font: 600 18px / 150% var(--font-family);
+  font: 300 12px var(--font-family);
   color: var(--labels-primary);
   margin-bottom: 1.5rem;
 }
 
 .contactInfo {
-  font: 400 14px / 150% var(--font-family);
-  color: #666;
-  margin-bottom: 1.5rem;
+  font: 400 14px / 129% var(--font-family);
+  color: var(--labels-primary);
+  margin-bottom: 24px;
   line-height: 1.6;
 }
 
@@ -41,12 +41,12 @@
 }
 
 .linkList li {
-  margin-bottom: 0.75rem;
+  margin-bottom:24px;
 }
 
 .footerLink {
-  font: 400 14px / 150% var(--font-family);
-  color: #666;
+  font: 400 14px / 129% var(--font-family);
+  color: var(--labels-primary);
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -56,12 +56,13 @@
 }
 
 .newsletterText {
-  font: 400 14px / 150% var(--font-family);
-  color: #666;
-  line-height: 1.6;
+  font: 400 14px / 129% var(--font-family);
 }
 
 .newsletterText strong {
+  font: 600 14px / 129% var(--font-family);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
   color: var(--labels-primary);
 }
 
