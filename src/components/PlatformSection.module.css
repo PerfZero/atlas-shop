@@ -1,0 +1,105 @@
+.hero {
+  position: relative;
+  height: 90vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  margin-top: 60px;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.textOverlay{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    font: 400 32px / 125% var(--font-second); 
+    text-align: center;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.description {
+    font: 500 24px var(--font-family);
+    text-align: center;
+    color: #fff;
+}
+
+.subtitle {
+    font: 500 24px var(--font-family);
+    text-align: center;
+    color: #fff;
+}
+
+.ctaLink {
+    font: 400 16px / 150% var(--font-family);
+    text-align: center;
+    color: #fff;
+    border: 1px solid #fff;
+border-radius: 100px;
+padding: 16px 20px;
+width: 222px;
+height: 56px;
+text-decoration: none;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/wrapper_end.png') center center;
+  background-size: cover;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 60vh;
+    min-height: 400px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .description {
+    font-size: 16px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+  }
+  
+  .textOverlay {
+    padding: 2rem;
+  }
+  
+  .ctaLink {
+    font-size: 1rem;
+  }
+} 

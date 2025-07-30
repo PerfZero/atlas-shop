@@ -1,0 +1,115 @@
+.footer {
+  background: white;
+  padding: 4rem 2rem 2rem;
+  margin-top: 60px;
+}
+
+.footerContent {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.footerColumns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footerColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.columnTitle {
+  font: 600 18px / 150% var(--font-family);
+  color: var(--labels-primary);
+  margin-bottom: 1.5rem;
+}
+
+.contactInfo {
+  font: 400 14px / 150% var(--font-family);
+  color: #666;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.linkList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linkList li {
+  margin-bottom: 0.75rem;
+}
+
+.footerLink {
+  font: 400 14px / 150% var(--font-family);
+  color: #666;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footerLink:hover {
+  color: var(--labels-primary);
+}
+
+.newsletterText {
+  font: 400 14px / 150% var(--font-family);
+  color: #666;
+  line-height: 1.6;
+}
+
+.newsletterText strong {
+  color: var(--labels-primary);
+}
+
+.footerDivider {
+  height: 1px;
+  background: #e0e0e0;
+  margin: 2rem 0;
+}
+
+.footerLogo {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.logoText {
+  font: 600 24px / 150% var(--font-second);
+  color: #56342b;
+  margin: 0 0.5rem;
+}
+
+.logoDiamond {
+  font-size: 16px;
+  color: #56342b;
+  margin: 0 0.25rem;
+}
+
+@media (max-width: 1024px) {
+  .footerColumns {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 2rem 1rem 1rem;
+  }
+  
+  .footerColumns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .columnTitle {
+    font-size: 16px;
+  }
+  
+  .logoText {
+    font-size: 20px;
+  }
+} 

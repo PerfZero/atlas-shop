@@ -1,0 +1,108 @@
+.hero {
+  position: relative;
+  height: 90vh;
+  min-height: 600px;
+  display: flex;
+  align-items: flex-end;
+  margin-top: 60px;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.category {
+  font: 400 14px / 129% var(--font-family);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #fff;
+}
+
+.title {
+  font: 400 32px var(--font-second);
+  text-align: center;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statValue {
+  font: 600 24px / 150% var(--font-family);
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font: 400 14px / 150% var(--font-family);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.ctaLink {
+  font: 500 14px / 129% var(--font-family);
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-align: center;
+  color: #fff;
+}
+
+.heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/back.jpg') center center;
+  background-size: cover;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    height: 60vh;
+    min-height: 400px;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .stats {
+    gap: 20px;
+  }
+  
+  .statValue {
+    font-size: 20px;
+  }
+  
+  .textOverlay {
+    padding: 2rem;
+  }
+  
+  .category {
+    font-size: 0.9rem;
+  }
+  
+  .ctaLink {
+    font-size: 1rem;
+  }
+} 
