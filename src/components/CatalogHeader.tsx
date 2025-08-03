@@ -2,10 +2,9 @@
 
 import { useState } from 'react';
 import styles from './AtlasHeader.module.css';
-import LiquidGlassCard from './LiquidGlassCard';
 import AuthModal from './AuthModal';
 
-export default function AtlasHeader() {
+export default function CatalogHeader() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleUserClick = () => {
@@ -75,32 +74,16 @@ export default function AtlasHeader() {
               </defs>
             </svg>
           </button>
-          <a href="/cart" className={styles.cartButton}>
+          <button className={styles.cartButton}>
             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.38845 13.6161H10.2702C11.4688 13.6161 12.1719 12.9197 12.1719 11.5402V4.60938C12.1719 3.22991 11.4621 2.53348 10.0693 2.53348H2.38845C0.988892 2.53348 0.285767 3.22321 0.285767 4.60938V11.5402C0.285767 12.9263 0.988892 13.6161 2.38845 13.6161ZM2.40184 12.5379C1.7322 12.5379 1.36389 12.183 1.36389 11.4866V4.66295C1.36389 3.96652 1.7322 3.61161 2.40184 3.61161H10.0491C10.7121 3.61161 11.0938 3.96652 11.0938 4.66295V11.4866C11.0938 12.183 10.7121 12.5379 10.2501 12.5379H2.40184ZM3.5871 2.79464L4.66523 2.80134C4.66523 1.84375 5.29469 1.16072 6.22548 1.16072C7.15628 1.16072 7.79245 1.84375 7.79245 2.80134L8.87057 2.79464C8.87057 1.31473 7.72548 0.14286 6.22548 0.14286C4.7255 0.14286 3.5871 1.31473 3.5871 2.79464Z" fill="currentColor" />
             </svg>
             <span className={styles.cartCount}>0</span>
-          </a>
+          </button>
         </div>
       </div>
-
-      <LiquidGlassCard>
-        <nav className={styles.navigation}>
-          <a href="#" className={styles.navLink}>Новые поступления</a>
-          <a href="#" className={styles.navLink}>Для женщин</a>
-          <a href="#" className={styles.navLink}>Для мужчин</a>
-          <a href="#" className={styles.navLink}>Финики</a>
-          <a href="#" className={styles.navLink}>Жайнамазы</a>
-          <a href="#" className={styles.navLink}>Картины</a>
-          <a href="#" className={styles.navLink}>Подарочные боксы</a>
-          <a href="#" className={styles.navLink}>Халяль БАДы и витамины</a>
-          <a href="#" className={styles.navLink}>Хадж наборы</a>
-          <a href="#" className={styles.navLink}>Limited Edition</a>
-          <a href="#" className={styles.navLink}>Магазины</a>
-        </nav>
-      </LiquidGlassCard>
       
       <AuthModal isOpen={isAuthModalOpen} onClose={handleCloseAuthModal} />
     </header>
   );
-}
+} 

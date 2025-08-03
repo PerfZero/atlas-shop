@@ -1,0 +1,233 @@
+.main {
+  min-height: 100vh;
+  background: white;
+}
+
+.content {
+  padding: 40px 16px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.title {
+    font: 400 32px / 1.25 var(--font-second );
+    text-align: center;
+    color: #56342b;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.sectionTitle {
+    font: 600 18px var(--font-family);
+    color: var(--labels-primary);
+  margin-bottom: 20px;
+}
+
+.featuredSection {
+  margin-bottom: 60px;
+}
+
+.allStoresSection {
+  margin-bottom: 40px;
+}
+
+.storesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.featuredSection .storesGrid {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.storeCard {
+  background: white;
+  border: 1px solid #e0e0e0;
+  padding: 24px;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.storeCard.featured {
+  background: #f6f5f3;
+}
+
+.storeCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  border: 0.50px solid var(--labels-primary);
+
+}
+
+.storeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.storeInfo {
+  flex: 1;
+}
+
+.storeName {
+    font: 400 20px / 1.2 var(--font-second);
+    color: var(--labels-primary);
+  margin: 0 0 8px 0;
+}
+
+.storeDescription {
+    font: 400 16px / 1.5 var(--font-family);
+    color: var(--labels-primary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.storeLogo {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoPlaceholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #e0e0e0;
+}
+
+.storeStats {
+  display: flex;
+  gap: 24px;
+}
+
+.rating, .purchases {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ratingValue, .purchasesValue {
+    font: 400 16px var(--font-family);
+    color: var(--labels-primary);
+}
+
+.ratingLabel, .purchasesLabel {
+    font: 300 14px var(--font-family);
+    color: var(--labels-primary);
+}
+
+.storeTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background: #f8f9fa;
+  color: var(--labels-primary);
+  font: 400 12px var(--font-family);
+  padding: 4px 12px;
+  background: #fff;
+}
+
+.firstTag {
+  background: var(--labels-primary);
+  color: white;
+  font-weight: 500;
+}
+
+.allStoresTag {
+    background: #ededed;
+    font: 500 12px var(--font-family);
+    text-align: center;
+    color: var(--labels-primary);
+}
+
+.newStoreTag {
+    background: #b27600;
+    color: white;
+    font-weight: 500;
+}
+
+.visitButton {
+    font: 500 14px / 1.28571 var(--font-family);
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    text-align: center;
+    color: var(--labels-primary);
+    margin-top: 24px;
+  transition: all 0.2s;
+  align-self: flex-start;
+}
+
+
+.showMoreButton {
+  background: white;
+  color: var(--labels-primary);
+  border: 1px solid var(--labels-primary);
+  padding: 16px 32px;
+  border-radius: 800px;
+  font: 500 16px var(--font-family);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: block;
+  margin: 0 auto;
+}
+
+.showMoreButton:hover {
+  background: var(--labels-primary);
+  color: white;
+}
+
+@media (max-width: 1024px) {
+  .storesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .featuredSection .storesGrid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 20px 16px;
+  }
+  
+  .title {
+    font-size: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .sectionTitle {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+  
+  .storesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .featuredSection {
+    margin-bottom: 40px;
+  }
+  
+  .storeCard {
+    padding: 20px;
+  }
+  
+  .storeStats {
+    gap: 16px;
+  }
+} 

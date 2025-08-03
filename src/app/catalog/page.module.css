@@ -1,0 +1,31 @@
+.main {
+  min-height: 100vh;
+}
+
+.content {
+  padding: 2rem;
+  max-width: 1440px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.title {
+  font: 400 32px / 125% var(--font-second);
+  color: #56342b;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font: 400 16px / 150% var(--font-family);
+  color: #666;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 2rem;
+  }
+} 

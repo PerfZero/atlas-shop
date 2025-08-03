@@ -1,0 +1,103 @@
+.main {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.content {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.title {
+  font: 600 32px var(--font-family);
+  color: var(--labels-primary);
+  text-align: center;
+  margin: 0 0 10px 0;
+}
+
+.subtitle {
+  font: 400 16px var(--font-family);
+  color: #666;
+  text-align: center;
+  margin: 0 0 40px 0;
+}
+
+.pagesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.pageCard {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pageCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-color: var(--labels-primary);
+}
+
+.pageName {
+  font: 600 20px var(--font-family);
+  color: var(--labels-primary);
+  margin: 0 0 12px 0;
+}
+
+.pageDescription {
+  font: 400 14px var(--font-family);
+  color: #666;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.pagePath {
+  font: 500 12px var(--font-family);
+  color: #999;
+  background: #f5f5f5;
+  padding: 6px 12px;
+  border-radius: 6px;
+  display: inline-block;
+  margin: 0 0 12px 0;
+}
+
+.clickHint {
+  font: 500 12px var(--font-family);
+  color: var(--labels-primary);
+  text-align: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.pageCard:hover .clickHint {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin: 20px auto;
+    padding: 0 15px;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .pagesGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .pageCard {
+    padding: 20px;
+  }
+} 

@@ -1,0 +1,27 @@
+.main {
+  min-height: 100vh;
+  background: white;
+}
+
+.cartContainer {
+
+  margin: 0 auto;
+  padding: 40px 0;
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 60px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .cartContainer {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cartContainer {
+    padding: 20px 16px;
+  }
+} 

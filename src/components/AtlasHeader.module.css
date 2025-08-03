@@ -150,6 +150,7 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
+  text-decoration: none;
 }
 
 .cartButton:hover {

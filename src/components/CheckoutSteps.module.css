@@ -1,0 +1,514 @@
+.checkoutSteps {
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--labels-primary);
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.backButton:hover {
+  background-color: #f5f5f5;
+}
+
+
+
+.stepsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  background: #ffffff50;
+  transition: all 0.2s;
+}
+
+.step.active {
+  background-color: #fff;
+}
+
+.step.completed {
+  background-color: #fff;
+}
+
+.stepNumber {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  background-color: #e9ecef;
+  color: #6c757d;
+}
+
+.step.active .stepNumber {
+  background-color: var(--labels-primary);
+  color: white;
+}
+
+.stepNumber.completed {
+  background-color: var(--labels-primary);
+  color: white;
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  border-bottom: 0.50px solid #c4c4c4;
+padding: 20px;
+  gap: 16px;
+}
+
+.stepTitle {
+    font: 600 18px var(--font-family);
+    color: var(--labels-primary);
+}
+
+.step.active .stepTitle {
+  color: var(--labels-primary);
+}
+
+.stepContent {
+    padding: 20px;
+}
+
+.stepDescription {
+    font: 500 16px / 1.5 var(--font-family);
+    color: var(--labels-primary);
+    margin-bottom: 32px;
+}
+
+.emailInput {
+  margin-bottom: 24px;
+}
+
+.emailInput label {
+    font: 500 14px / 1.28571 var(--font-family);
+    color: var(--labels-primary);
+    display: block;
+  margin-bottom: 12px;
+}
+
+.emailInput input {
+  width: 100%;
+  border-radius: 8px;
+  padding: 5px 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  height: 46px;
+  font: 400 14px var(--font-family);
+  color: var(--labels-primary);
+  background: white;
+}
+
+.emailInput input:focus {
+  outline: none;
+  border-color: var(--labels-primary);
+}
+
+.emailInput input.inputError {
+  border-color: #dc3545;
+}
+
+.errorMessage {
+  font: 500 14px / 1.28571 var(--font-family);
+  color: #ff3b30;
+  margin-top: 12px;
+}
+
+.emailDisplay {
+    font: 500 16px / 1.5 var(--font-family);
+    color: var(--labels-primary);
+}
+
+.checkboxContainer {
+  margin-bottom: 32px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.content {
+
+    display: grid;
+    grid-template-columns: 1fr 168px;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  gap: 20px;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  appearance: none;
+  border: 2px solid var(--labels-primary);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox:checked {
+  background: transparent;
+  border: 2px solid var(--labels-primary);
+}
+
+.checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -2px;
+  left: 1px;
+  color: var(--labels-primary);
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.checkboxText {
+    font: 500 14px / 1.28571 var(--font-family);
+    color: var(--labels-primary);
+}
+
+.continueButton {
+    font: 500 16px / 1.5 var(--font-family);
+    text-align: center;
+    color: #fff;    
+    border: 1px solid #fff;
+border-radius: 100px;
+background: var(--labels-primary);
+width: 100%;
+height: 50px;
+display: flex;
+align-items: center;
+justify-content: center;
+flex-direction: row;
+gap: 10px;
+  float: right;
+}
+
+.continueButton:hover {
+  background: #000;
+}
+
+.continueButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.deliveryForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+}
+
+.formField label {
+  font: 500 14px / 1.28571 var(--font-family);
+  color: var(--labels-primary);
+  margin-bottom: 12px;
+}
+
+.formField input {
+  width: 100%;
+  border-radius: 8px;
+  padding: 5px 15px;
+  border: 1px solid #e0e0e0;
+  height: 46px;
+  font: 400 14px var(--font-family);
+  color: var(--labels-primary);
+  background: white;
+}
+
+.formField input:focus {
+  outline: none;
+  border-color: var(--labels-primary);
+}
+
+.cityInput {
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.cityInput label {
+  font: 500 14px / 1.28571 var(--font-family);
+  color: var(--labels-primary);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.selectWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.citySelect {
+  width: 100%;
+  border-radius: 8px;
+  padding: 5px 15px;
+  padding-right: 40px;
+  border: 1px solid #e0e0e0;
+  height: 46px;
+  font: 400 14px var(--font-family);
+  color: var(--labels-primary);
+  background: white;
+}
+
+.citySelect:focus {
+  outline: none;
+  border-color: var(--labels-primary);
+}
+
+.selectArrow {
+  position: absolute;
+  right: 15px;
+  color: var(--labels-primary);
+  pointer-events: none;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10;
+  margin-top: 4px;
+}
+
+.dropdownItem {
+  padding: 12px 16px;
+  cursor: pointer;
+  font: 400 14px var(--font-family);
+  color: var(--labels-primary);
+  transition: background-color 0.2s;
+}
+
+ .dropdownItem:hover {
+   background-color: #f5f5f5;
+ }
+
+ .addressForm {
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+ }
+
+ .formTitle {
+   font: 600 18px var(--font-family);
+   color: var(--labels-primary);
+   margin-bottom: 20px;
+ }
+
+ .formRow {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 16px;
+ }
+
+ .formRow:has(.formField:nth-child(4)) {
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+ }
+
+ .formField {
+   display: flex;
+   flex-direction: column;
+ }
+
+ .formField label {
+   font: 500 14px / 1.28571 var(--font-family);
+   color: var(--labels-primary);
+   margin-bottom: 12px;
+ }
+
+ .formField input {
+   width: 100%;
+   border-radius: 8px;
+   padding: 5px 15px;
+   border: 1px solid #e0e0e0;
+   height: 46px;
+   font: 400 14px var(--font-family);
+   color: var(--labels-primary);
+   background: white;
+ }
+
+ .formField input:focus {
+   outline: none;
+   border-color: var(--labels-primary);
+ }
+
+ .requiredFields {
+   font: 400 12px var(--font-family);
+   color: #606367;
+   margin-top: 16px;
+ }
+
+ .cityDisplay {
+   margin-bottom: 20px;
+ }
+
+ .cityDisplay label {
+   font: 500 14px / 1.28571 var(--font-family);
+   color: var(--labels-primary);
+   display: block;
+   margin-bottom: 12px;
+ }
+
+ .cityValue {
+   font: 500 16px / 1.5 var(--font-family);
+   color: var(--labels-primary);
+   padding: 12px 15px;
+   border: 1px solid #e0e0e0;
+   border-radius: 8px;
+   background: #f8f9fa;
+ }
+
+ .addressSummary {
+   margin-bottom: 20px;
+ }
+
+ .addressSummary label {
+   font: 500 14px / 1.28571 var(--font-family);
+   color: var(--labels-primary);
+   display: block;
+   margin-bottom: 12px;
+ }
+
+ .addressDisplay {
+   font: 500 16px / 1.5 var(--font-family);
+   color: var(--labels-primary);
+
+ }
+
+ .addressName {
+   font-weight: 600;
+   margin-bottom: 8px;
+ }
+
+ .addressRegion {
+   margin-bottom: 8px;
+ }
+
+ .addressStreet {
+   margin-bottom: 8px;
+ }
+
+ .addressDetails {
+   margin-bottom: 8px;
+ }
+
+  .addressPhone {
+   font-weight: 600;
+ }
+
+ .paymentOptions {
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   margin-bottom: 32px;
+ }
+
+ .paymentOption {
+  
+    background: #f6f5f3;
+    padding: 20px;
+   transition: all 0.2s;
+ }
+
+ .paymentOption:hover {
+   border-color: var(--labels-primary);
+ }
+
+ .paymentLabel {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   cursor: pointer;
+   width: 100%;
+ }
+
+ .paymentRadio {
+   width: 32px;
+   height: 32px;
+   border: 2px solid #e0e0e0;
+   border-radius: 50%;
+   background: white;
+   cursor: pointer;
+   position: relative;
+   flex-shrink: 0;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   transition: all 0.2s;
+ }
+
+ .paymentRadio:hover {
+   border-color: var(--labels-primary);
+ }
+
+ .paymentRadio:has(svg) {
+   border-color: var(--labels-primary);
+   background: var(--labels-primary);
+ }
+
+ .paymentText {
+   font: 500 14px var(--font-family);
+   color: var(--labels-primary);
+   flex: 1;
+ }
+
+ .paymentIcon {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-shrink: 0;
+ }
+
+ @media (max-width: 768px) {
+  .stepsContent {
+    padding: 20px;
+  }
+  
+  .step {
+    padding: 12px;
+  }
+  
+  .stepContent {
+    padding: 16px 0 0 0;
+  }
+} 
