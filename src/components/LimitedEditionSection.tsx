@@ -7,9 +7,9 @@ export default function LimitedEditionSection() {
     <section className={styles.hero}>
       <div className={styles.heroContent}>
         <div className={styles.textOverlay}>
-          <h2 className={styles.category}>Limited Edition11</h2>
-          <h1 className={styles.title}>Расцветай на каждом шагу1</h1>
-          <a href="#" className={styles.ctaLink}>Перейти к магазину1</a>
+          <h2 className={styles.category}>Limited Edition1</h2>
+          <h1 className={styles.title}>Расцветай на каждом шагу</h1>
+          <a href="#" className={styles.ctaLink}>Перейти к магазину</a>
         </div>
       </div>
       <div className={styles.heroImage}></div>
