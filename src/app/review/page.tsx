@@ -264,7 +264,7 @@ export default function ReviewPage() {
                     </div>
                   </div>
                   </div>
-                пш) : (
+                ) : (
                   <div className={styles.loading}>
                     <div className={styles.loadingSpinner}></div>
                     <p>Загрузка товара...</p>
