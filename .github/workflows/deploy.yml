@@ -1,0 +1,48 @@
+name: Deploy to Atlas Store Server
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: 78.40.109.159
+        username: ubuntu
+        password: ${{ secrets.SERVER_PASSWORD }}
+        script: |
+          echo "Starting deployment..."
+          cd /var/www/store.atlas.kz
+          
+          echo "Stopping current application..."
+          pm2 stop store-atlas-kz || true
+          
+          echo "Pulling latest changes..."
+          git fetch origin
+          git reset --hard origin/main
+          
+          echo "Installing dependencies..."
+          npm ci --production=false
+          
+          echo "Building application..."
+          npm run build
+          
+          echo "Starting application..."
+          pm2 start ecosystem.config.js
+          pm2 save
+          
+          echo "Checking application status..."
+          pm2 status
+          
+          echo "Testing HTTPS endpoint..."
+          sleep 5
+          curl -I https://store.atlas.kz || echo "HTTPS test failed, but deployment completed"
+          
+          echo "Deployment completed successfully!" 
