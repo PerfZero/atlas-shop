@@ -44,7 +44,7 @@ export default function CartPage() {
       
       if (response.success) {
         setCartItems(response.cart);
-        setCategories(response.categories);
+        setCategories(response.categories as CartCategory[]);
         setTotalPrice(response.total_price_numeric);
       } else {
         setError('Ошибка загрузки корзины');
