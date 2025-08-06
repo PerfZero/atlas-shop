@@ -19,6 +19,7 @@ interface SimpleProduct {
   store: string;
   image: string;
   is_favorite: boolean;
+  characteristics?: string[];
 }
 
 export default function CategoryPage() {
@@ -65,7 +66,8 @@ export default function CategoryPage() {
             price: product.price,
             store: product.store,
             image: product.image || '',
-            is_favorite: product.is_favorite
+            is_favorite: product.is_favorite,
+            characteristics: product.characteristics
           }));
           setProducts(simpleProducts);
           console.log('Товары категории загружены:', simpleProducts);

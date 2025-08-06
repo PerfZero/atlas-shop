@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '../../hooks/useAuth';
 import { WordPressAPI } from '../../services/wordpressApi';
@@ -9,7 +9,7 @@ import AtlasFooter from '../../components/AtlasFooter';
 import Toast from '../../components/Toast';
 import styles from './page.module.css';
 
-export default function ReviewPage() {
+function ReviewPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, isAuthenticated, loading } = useAuth();
@@ -310,4 +310,20 @@ export default function ReviewPage() {
        />
      </main>
    );
- } 
+ }
+
+export default function ReviewPage() {
+  return (
+    <Suspense fallback={
+      <main className={styles.main}>
+        <CatalogHeader />
+        <div className={styles.loading}>
+          <div className={styles.loadingSpinner}></div>
+          <p>Загрузка...</p>
+        </div>
+      </main>
+    }>
+      <ReviewPageContent />
+    </Suspense>
+  );
+} 
