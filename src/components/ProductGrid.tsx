@@ -5,6 +5,15 @@ import Link from 'next/link';
 import styles from './ProductGrid.module.css';
 import Toast from './Toast';
 import { Product } from '../services/categoryApi';
+
+interface SimpleProduct {
+  id: number;
+  name: string;
+  price: string;
+  store: string;
+  image: string;
+  is_favorite: boolean;
+}
 import { WordPressAPI } from '../services/wordpressApi';
 
 interface ToastState {
@@ -15,11 +24,11 @@ interface ToastState {
 
 interface ProductGridProps {
   title: string;
-  products: Product[];
+  products: SimpleProduct[];
 }
 
 export default function ProductGrid({ title, products: initialProducts }: ProductGridProps) {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<SimpleProduct[]>(initialProducts);
 
   const [toast, setToast] = useState<ToastState>({
     isVisible: false,
