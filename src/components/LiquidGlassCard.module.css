@@ -2,5 +2,5 @@
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     -moz-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
