@@ -15,7 +15,20 @@ export default function ReviewPage() {
   const { user, isAuthenticated, loading } = useAuth();
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
-  const [product, setProduct] = useState<any>(null);
+  const [product, setProduct] = useState<{
+    id: string;
+    name: string;
+    sku: string;
+    price: string;
+    image: string;
+    color: string;
+    size: string;
+    store: string;
+    attributes?: {
+      colors?: Array<{ name: string }>;
+      sizes?: Array<{ name: string }>;
+    };
+  } | null>(null);
   const [loadingProduct, setLoadingProduct] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState({

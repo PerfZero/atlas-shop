@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '../../hooks/useAuth';
 import { CartApi, CartItem } from '../../services/cartApi';
 import { useCart } from '../../contexts/CartContext';
@@ -171,9 +172,9 @@ export default function CartPage() {
           <div className={styles.emptyCart}>
             <h2>Корзина пуста</h2>
             <p>Добавьте товары в корзину для продолжения покупок</p>
-            <a href="/" className={styles.continueShoppingBtn}>
+            <Link href="/" className={styles.continueShoppingBtn}>
               Перейти к покупкам
-            </a>
+            </Link>
           </div>
         </div>
         <AtlasFooter />

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useAuth } from '../../hooks/useAuth';
 import { WordPressAPI } from '../../services/wordpressApi';
 import CatalogHeader from '../../components/CatalogHeader';
@@ -43,15 +44,41 @@ export default function ProfilePage() {
   const [profileLoading, setProfileLoading] = useState(false);
   
   // Состояние для заказов
-  const [orders, setOrders] = useState<any[]>([]);
+  const [orders, setOrders] = useState<Array<{
+    id: string;
+    status: string;
+    total_amount: number;
+    created_at: string;
+    updated_at?: string;
+    cart_items: Array<{
+      id: number;
+      name: string;
+      sku: string;
+      image: string;
+    }>;
+  }>>([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
   
   // Состояние для избранного
-  const [wishlist, setWishlist] = useState<any[]>([]);
+  const [wishlist, setWishlist] = useState<Array<{
+    id: number;
+    name: string;
+    price: string;
+    image: string;
+    sku: string;
+  }>>([]);
   const [wishlistLoading, setWishlistLoading] = useState(false);
   
   // Состояние для отзывов
-  const [userReviews, setUserReviews] = useState<any[]>([]);
+  const [userReviews, setUserReviews] = useState<Array<{
+    id: string;
+    product_name: string;
+    product_sku: string;
+    product_image: string;
+    rating: number;
+    text: string;
+    created_at: string;
+  }>>([]);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   
   // Состояние для toast
@@ -381,7 +408,13 @@ export default function ProfilePage() {
     }).format(price);
   };
 
-  const formatAddress = (address: any) => {
+  const formatAddress = (address: {
+    street?: string;
+    houseNumber?: string;
+    entrance?: string;
+    apartment?: string;
+    floor?: string;
+  } | string) => {
     if (typeof address === 'string') return address;
     if (typeof address === 'object') {
       const parts = [

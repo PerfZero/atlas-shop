@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { useAuth } from '../../hooks/useAuth';
 import CatalogHeader from '../../components/CatalogHeader';
 import CheckoutSteps from '../../components/CheckoutSteps';
@@ -14,7 +15,13 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState('');
   const [subscribeToEmails, setSubscribeToEmails] = useState(true);
 
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<Array<{
+    id: number;
+    name: string;
+    price: number;
+    image: string;
+    quantity: number;
+  }>>([]);
   const [total, setTotal] = useState(0);
   const [loadingCart, setLoadingCart] = useState(true);
 
@@ -37,7 +44,13 @@ export default function CheckoutPage() {
               console.log('total_price_numeric:', data.total_price_numeric);
               
               // Преобразуем данные корзины в формат для чекаута
-              const items = data.cart.map((item: any) => {
+              const items = data.cart.map((item: {
+                product_id: number;
+                name: string;
+                price: string;
+                image: string;
+                quantity: number;
+              }) => {
                 const price = parseFloat(item.price) * 1000;
                 console.log(`Товар ${item.name}: цена ${item.price} -> ${price}`);
                 return {
@@ -50,7 +63,7 @@ export default function CheckoutPage() {
               });
               
               setCartItems(items);
-              const totalPrice = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+              const totalPrice = items.reduce((sum: number, item: { price: number; quantity: number }) => sum + (item.price * item.quantity), 0);
               console.log('Итоговая сумма:', totalPrice);
               setTotal(totalPrice);
             }
@@ -88,9 +101,9 @@ export default function CheckoutPage() {
           <div className={styles.error}>
             <h2>Необходимо войти в аккаунт</h2>
             <p>Для оформления заказа необходимо авторизоваться</p>
-            <a href="/login" className={styles.loginBtn}>
+            <Link href="/login" className={styles.loginBtn}>
               Войти в аккаунт
-            </a>
+            </Link>
           </div>
         </div>
         <AtlasFooter />
