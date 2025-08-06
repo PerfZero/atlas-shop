@@ -28,4 +28,66 @@
   .title {
     font-size: 2rem;
   }
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+}
+
+.loadingSpinner {
+  font-size: 1.125rem;
+  color: #666;
+  text-align: center;
+}
+
+.errorContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+}
+
+.errorMessage {
+  text-align: center;
+  max-width: 500px;
+}
+
+.errorMessage h2 {
+  font-size: 1.5rem;
+  color: #e74c3c;
+  margin-bottom: 1rem;
+}
+
+.errorMessage p {
+  color: #666;
+  line-height: 1.6;
+}
+
+.noProductsContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+}
+
+.noProductsMessage {
+  text-align: center;
+  max-width: 500px;
+}
+
+.noProductsMessage h2 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.noProductsMessage p {
+  color: #666;
+  line-height: 1.6;
 } 

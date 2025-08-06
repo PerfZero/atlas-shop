@@ -1,36 +1,154 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useAuth } from '../../hooks/useAuth';
+import { WordPressAPI } from '../../services/wordpressApi';
 import CatalogHeader from '../../components/CatalogHeader';
 import AtlasFooter from '../../components/AtlasFooter';
+import Toast from '../../components/Toast';
 import styles from './page.module.css';
 
 export default function ReviewPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { user, isAuthenticated, loading } = useAuth();
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
+  const [product, setProduct] = useState<any>(null);
+  const [loadingProduct, setLoadingProduct] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [toast, setToast] = useState({
+    message: '',
+    type: 'success' as 'success' | 'error' | 'info',
+    isVisible: false
+  });
 
-  const product = {
-    name: "NOMADMOOD ASAR UME STYLE",
-    article: "1ABOF4",
-    image: "/pic_1.png",
-    store: "Nysse"
-  };
+  // Проверяем авторизацию
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push('/');
+    }
+  }, [loading, isAuthenticated, router]);
+
+  // Загружаем данные товара
+  useEffect(() => {
+    const loadProduct = async () => {
+      const productId = searchParams.get('product_id');
+      if (!productId) {
+        router.push('/profile');
+        return;
+      }
+
+      try {
+        const response = await fetch(`https://test.devdenis.ru/wp-json/atlas/v1/products/${productId}`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            setProduct(data.product);
+          } else {
+            showToast('Ошибка загрузки товара', 'error');
+            router.push('/profile');
+          }
+        } else {
+          showToast('Ошибка загрузки товара', 'error');
+          router.push('/profile');
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки товара:', error);
+        showToast('Ошибка загрузки товара', 'error');
+        router.push('/profile');
+      } finally {
+        setLoadingProduct(false);
+      }
+    };
+
+    if (isAuthenticated) {
+      loadProduct();
+    }
+  }, [isAuthenticated, searchParams, router]);
 
   const handleRatingClick = (star: number) => {
     setRating(star);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Отзыв отправлен:', { rating, reviewText });
-    router.push('/profile');
+    
+    if (rating === 0) {
+      showToast('Пожалуйста, поставьте оценку', 'error');
+      return;
+    }
+
+    if (!reviewText.trim()) {
+      showToast('Пожалуйста, напишите отзыв', 'error');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      const token = WordPressAPI.getSavedToken();
+      const productId = searchParams.get('product_id');
+      
+      if (!token || !productId) {
+        showToast('Ошибка отправки отзыва', 'error');
+        return;
+      }
+
+      const result = await WordPressAPI.addReview(token, parseInt(productId), rating, reviewText);
+      
+      if (result.success) {
+        showToast('Отзыв успешно добавлен!', 'success');
+        setTimeout(() => {
+          router.push('/profile?tab=reviews');
+        }, 1500);
+      } else {
+        showToast(result.message || 'Ошибка отправки отзыва', 'error');
+      }
+    } catch (error) {
+      console.error('Ошибка отправки отзыва:', error);
+      showToast('Ошибка отправки отзыва', 'error');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
     router.push('/profile');
   };
+
+  const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
+    setToast({
+      message,
+      type,
+      isVisible: true
+    });
+  };
+
+  const hideToast = () => {
+    setToast(prev => ({
+      ...prev,
+      isVisible: false
+    }));
+  };
+
+  // Показываем загрузку
+  if (loading || loadingProduct) {
+    return (
+      <main className={styles.main}>
+        <CatalogHeader />
+        <div className={styles.loading}>
+          <div className={styles.loadingSpinner}></div>
+          <p>Загрузка...</p>
+        </div>
+      </main>
+    );
+  }
+
+  // Если не авторизован, не показываем контент
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <main className={styles.main}>
@@ -50,7 +168,7 @@ export default function ReviewPage() {
                   <input 
                     type="text" 
                     className={styles.textInput}
-                    value="Айдана"
+                    value={user?.firstName || user?.phone || 'Пользователь'}
                     readOnly
                   />
                 </div>
@@ -97,8 +215,8 @@ export default function ReviewPage() {
                 </div>
 
                 <div className={styles.requiredFields}>* Обязательные поля</div>
-                <button type="submit" className={styles.submitButton}>
-                  Оставить отзыв
+                <button type="submit" className={styles.submitButton} disabled={submitting}>
+                  {submitting ? 'Отправка...' : 'Оставить отзыв'}
                 </button>   
                 </div>
                 
@@ -106,41 +224,54 @@ export default function ReviewPage() {
             </form>
           </div>
 
-          <div className={styles.rightColumn}>
-            <h2 className={styles.productTitle}>Отзыв о товаре:</h2>
-            <div className={styles.orderWrapper}>
-            <div className={styles.orderItem}>
-              <div className={styles.orderImage}>
-                <img src={product.image} alt={product.name} />
-              </div>
-              <div className={styles.orderDetails}>
-                <div className={styles.orderNameArticlePrice}>
-                  <h3 className={styles.orderName}>{product.name}</h3>
-                  <div className={styles.orderArticle}>{product.article}</div>
-                  <div className={styles.orderPrice}>19 690 ₸</div>
-                </div>
-                <div className={styles.orderSpecs}>
-                  <div className={styles.orderSpec}>
-                    <span className={styles.specLabel}>Цвет:</span>
-                    <span className={styles.specValue}>Белый</span>
+                       <div className={styles.rightColumn}>
+              <div className={styles.block}>
+                <h2 className={styles.blockTitle}>Отзыв о товаре:</h2>
+                {product ? (
+                  <div className={styles.orderWrapper}>
+                  <div className={styles.orderItem}>
+                    <div className={styles.orderImage}>
+                      <img alt="Product" src={product.image || "/pic_1.png"} />
+                    </div>
+                    <div className={styles.orderDetails}>
+                      <div className={styles.orderNameArticlePrice}>
+                        <h3 className={styles.orderName}>{product.name}</h3>
+                        <div className={styles.orderArticle}>{product.sku}</div>
+                        <div className={styles.orderPrice}>{product.price}</div>
+                      </div>
+                                             <div className={styles.orderSpecs}>
+                         {product.attributes?.colors?.[0]?.name && (
+                           <div className={styles.orderSpec}>
+                             <span className={styles.specLabel}>Цвет:</span>
+                             <span className={styles.specValue}>{product.attributes.colors[0].name}</span>
+                           </div>
+                         )}
+                         {product.attributes?.sizes?.[0]?.name && (
+                           <div className={styles.orderSpec}>
+                             <span className={styles.specLabel}>Размер:</span>
+                             <span className={styles.specValue}>{product.attributes.sizes[0].name}</span>
+                           </div>
+                         )}
+                         <div className={styles.orderSpec}>
+                           <span className={styles.specLabel}>Магазин:</span>
+                           <span className={styles.specValue}>{product.store || 'Atlas Store'}</span>
+                         </div>
+                       </div>
+                      <div className={styles.orderActions}>
+                        <button className={styles.orderAction}>Открыть товар</button>
+                        <button className={styles.orderAction}>Заказать еще</button>
+                      </div>
+                    </div>
                   </div>
-                  <div className={styles.orderSpec}>
-                    <span className={styles.specLabel}>Размер:</span>
-                    <span className={styles.specValue}>XL</span>
                   </div>
-                  <div className={styles.orderSpec}>
-                    <span className={styles.specLabel}>Доставлено:</span>
-                    <span className={styles.specValue}>12.09.2025</span>
+                пш) : (
+                  <div className={styles.loading}>
+                    <div className={styles.loadingSpinner}></div>
+                    <p>Загрузка товара...</p>
                   </div>
-                </div>
-                <div className={styles.orderActions}>
-                  <button className={styles.orderAction}>Открыть товар</button>
-                  <button className={styles.orderAction}>Заказать еще</button>
-                </div>
+                )}
               </div>
             </div>
-            </div>
-          </div>
         </div>
 
         <div className={styles.contactBlock}>
@@ -156,7 +287,14 @@ export default function ReviewPage() {
         </div>
       </div>
 
-      <AtlasFooter />
-    </main>
-  );
-} 
+             <AtlasFooter />
+       
+       <Toast 
+         message={toast.message}
+         type={toast.type}
+         isVisible={toast.isVisible}
+         onClose={hideToast}
+       />
+     </main>
+   );
+ } 

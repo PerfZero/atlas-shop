@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Philosopher } from "next/font/google";
 import "./globals.css";
+import { CartProvider } from "../contexts/CartContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body className={`${inter.className} ${philosopher.variable}`}>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

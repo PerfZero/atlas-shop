@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useAuth } from '../hooks/useAuth';
 import styles from './CheckoutSteps.module.css';
 
 interface CheckoutStepsProps {
@@ -20,6 +21,7 @@ export default function CheckoutSteps({
   subscribeToEmails,
   setSubscribeToEmails
 }: CheckoutStepsProps) {
+  const { user } = useAuth();
   const [selectedCity, setSelectedCity] = useState('');
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [searchCity, setSearchCity] = useState('');
@@ -39,6 +41,55 @@ export default function CheckoutSteps({
     floor: '',
     phone: ''
   });
+
+  useEffect(() => {
+    if (user) {
+      setEmail(user.email || '');
+      setFormData(prev => ({
+        ...prev,
+        phone: user.phone || ''
+      }));
+      
+      // Загружаем профиль пользователя для автозаполнения
+      const loadUserProfile = async () => {
+        try {
+          const token = localStorage.getItem('atlas_token');
+          if (token) {
+            const response = await fetch('https://test.devdenis.ru/wp-json/atlas/v1/user/profile/load', {
+              headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            });
+            
+            if (response.ok) {
+              const data = await response.json();
+              if (data.success && data.profile) {
+                setFormData(prev => ({
+                  ...prev,
+                  name: data.profile.firstName || '',
+                  surname: data.profile.lastName || '',
+                  region: data.profile.region || '',
+                  index: data.profile.zipCode || '',
+                  street: data.profile.street || '',
+                  houseNumber: data.profile.houseNumber || '',
+                  entrance: data.profile.entrance || '',
+                  apartment: data.profile.apartment || '',
+                  intercom: data.profile.intercom || '',
+                  floor: data.profile.floor || '',
+                  phone: user.phone || data.profile.phone || ''
+                }));
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Ошибка загрузки профиля:', error);
+        }
+      };
+      
+      loadUserProfile();
+    }
+  }, [user, setEmail]);
 
   const steps = [
     { id: 1, title: "Идентификация" },
@@ -93,16 +144,124 @@ export default function CheckoutSteps({
     }));
   };
 
-  const handleAddressContinue = () => {
+  const handleAddressContinue = async () => {
     if (formData.name && formData.surname && formData.phone) {
+      // Сохраняем данные профиля
+      try {
+        const token = localStorage.getItem('atlas_token');
+        if (token) {
+          const response = await fetch('https://test.devdenis.ru/wp-json/atlas/v1/user/profile/save', {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              firstName: formData.name,
+              lastName: formData.surname,
+              region: formData.region,
+              zipCode: formData.index,
+              street: formData.street,
+              houseNumber: formData.houseNumber,
+              entrance: formData.entrance,
+              apartment: formData.apartment,
+              intercom: formData.intercom,
+              floor: formData.floor,
+              email: email
+            }),
+          });
+          
+          if (response.ok) {
+            console.log('Профиль сохранен');
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка сохранения профиля:', error);
+      }
+      
       setAddressCompleted(true);
       setCurrentStep(3);
     }
   };
 
-  const handlePaymentContinue = () => {
-    // Здесь будет логика для завершения заказа
-    console.log('Заказ завершен с методом оплаты:', selectedPaymentMethod);
+  const handlePaymentContinue = async () => {
+    try {
+      const token = localStorage.getItem('atlas_token');
+      if (!token) {
+        console.error('Токен не найден');
+        return;
+      }
+
+      // Получаем данные корзины
+      const cartResponse = await fetch('https://test.devdenis.ru/wp-json/atlas/v1/cart/with-categories', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!cartResponse.ok) {
+        console.error('Ошибка получения корзины');
+        return;
+      }
+
+      const cartData = await cartResponse.json();
+      
+      if (!cartData.success) {
+        console.error('Ошибка получения корзины:', cartData.message);
+        return;
+      }
+
+      // Создаем заказ
+      const orderData = {
+        customer_data: {
+          email: email,
+          name: formData.name,
+          surname: formData.surname,
+          phone: formData.phone,
+          address: {
+            city: selectedCity,
+            region: formData.region,
+            index: formData.index,
+            street: formData.street,
+            houseNumber: formData.houseNumber,
+            entrance: formData.entrance,
+            apartment: formData.apartment,
+            intercom: formData.intercom,
+            floor: formData.floor
+          },
+          payment_method: selectedPaymentMethod
+        },
+        cart_items: cartData.cart,
+        total_amount: cartData.total_price_numeric
+      };
+
+      const orderResponse = await fetch('https://test.devdenis.ru/wp-json/atlas/v1/orders/create', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!orderResponse.ok) {
+        console.error('Ошибка создания заказа');
+        return;
+      }
+
+      const orderResult = await orderResponse.json();
+      
+      if (orderResult.success) {
+        console.log('Заказ успешно создан:', orderResult.order_id);
+        // Перенаправляем на страницу успешного заказа с ID заказа
+        window.location.href = `/order-success?orderId=${orderResult.order_id}`;
+      } else {
+        console.error('Ошибка создания заказа:', orderResult.message);
+      }
+    } catch (error) {
+      console.error('Ошибка при создании заказа:', error);
+    }
   };
 
   const filteredCities = cities.filter(city => 

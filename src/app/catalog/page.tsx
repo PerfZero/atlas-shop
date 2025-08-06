@@ -13,7 +13,7 @@ const abayaProducts = [
     price: "₸ 240 000",
     store: "NEYSS",
     image: "/product_1.png",
-    isFavorite: false
+    is_favorite: false
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const abayaProducts = [
     price: "₸ 240 000",
     store: "NEYSS",
     image: "/product_1.png",
-    isFavorite: false
+    is_favorite: false
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const abayaProducts = [
     price: "₸ 240 000",
     store: "NEYSS",
     image: "/product_1.png",
-    isFavorite: false
+    is_favorite: false
   },
   {
     id: 4,
@@ -37,7 +37,7 @@ const abayaProducts = [
     price: "₸ 240 000",
     store: "NEYSS",
     image: "/product_1.png",
-    isFavorite: false
+    is_favorite: false
   }
 ];
 

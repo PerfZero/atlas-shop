@@ -16,7 +16,8 @@ export default function NavigationPage() {
     { path: '/checkout', name: 'Оформление заказа', description: 'Страница оформления покупки' },
     { path: '/profile', name: 'Профиль', description: 'Личный кабинет пользователя' },
     { path: '/review', name: 'Оставить отзыв', description: 'Страница для написания отзыва' },
-    { path: '/stores', name: 'Магазины', description: 'Информация о магазинах' }
+    { path: '/stores', name: 'Магазины', description: 'Информация о магазинах' },
+    { path: '/seller-registration', name: 'Регистрация продавца', description: 'Пошаговая регистрация продавца' }
   ];
 
   const handlePageClick = (path: string) => {

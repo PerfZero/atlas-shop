@@ -215,6 +215,7 @@
 .categoryImage {
   margin-bottom: 1rem;
   overflow: hidden;
+  cursor: pointer;
   transition: transform 0.3s ease;
 }
 
@@ -234,16 +235,16 @@
 
 @media (max-width: 768px) {
   .categories {
-    padding: 2rem 1rem;
+    padding: 1rem 0;
   }
   
   .categoriesTitle {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    margin: 1rem;
   }
   
   .categoriesGrid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
+    display: none;
   }
   
   .categoryCard {
@@ -340,4 +341,113 @@
   .additionalContent {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* Мобильный слайдер категорий */
+.mobileSlider {
+  display: none;
+  margin: 2rem 0;
+}
+
+.sliderContainer {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.sliderContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.sliderTrack {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  min-width: max-content;
+}
+
+.sliderTrack .categoryCard {
+  flex-shrink: 0;
+  width: calc(66.666% - 0.5rem);
+  max-width: 240px;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+}
+
+.sliderTrack .categoryCard:hover {
+  transform: scale(1.05);
+}
+
+.sliderTrack .categoryImage {
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.sliderTrack .categoryImage img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.sliderTrack .categoryName {
+  font: 400 16px / 150% var(--font-family);
+  text-align: center;
+  color: var(--labels-primary);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .mobileSlider {
+    display: block;
+    margin: 1rem 0;
+  }
+  
+  .sliderTrack .categoryCard {
+    width: calc(66.666% - 0.5rem);
+    max-width: 240px;
+  }
+  
+  .sliderTrack .categoryImage img {
+    height: 300px;
+  }
+  
+  .sliderTrack .categoryName {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sliderTrack .categoryCard {
+    width: calc(66.666% - 0.5rem);
+    max-width: 200px;
+  }
+  
+  .sliderTrack .categoryImage img {
+    height: 300px;
+  }
+  
+  .sliderTrack .categoryName {
+    font-size: 12px;
+  }
+}
+
+.loadingCategories {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.125rem;
+  color: #666;
+}
+
+.noCategories {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.125rem;
+  color: #666;
+  font-style: italic;
 }

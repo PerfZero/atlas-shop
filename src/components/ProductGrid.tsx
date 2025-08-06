@@ -1,18 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from './ProductGrid.module.css';
 import Toast from './Toast';
-
-interface Product {
-  id: number;
-  name: string;
-  price: string;
-  store: string;
-  image: string;
-  isFavorite: boolean;
-}
+import { Product } from '../services/categoryApi';
+import { WordPressAPI } from '../services/wordpressApi';
 
 interface ToastState {
   isVisible: boolean;
@@ -34,28 +27,81 @@ export default function ProductGrid({ title, products: initialProducts }: Produc
     type: 'info'
   });
 
-  const toggleFavorite = (productId: number, e: React.MouseEvent) => {
+  useEffect(() => {
+    setProducts(initialProducts);
+  }, [initialProducts]);
+
+  const toggleFavorite = async (productId: number, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
-    setProducts(prevProducts => 
-      prevProducts.map(product => 
-        product.id === productId 
-          ? { ...product, isFavorite: !product.isFavorite }
-          : product
-      )
-    );
+    const token = WordPressAPI.getSavedToken();
+    if (!token) {
+      setToast({
+        isVisible: true,
+        message: 'Необходимо войти в аккаунт',
+        type: 'error'
+      });
+      return;
+    }
 
     const product = products.find(p => p.id === productId);
-    const isFavorite = !product?.isFavorite;
+    const isFavorite = !product?.is_favorite;
 
-    setToast({
-      isVisible: true,
-      message: isFavorite 
-        ? 'Товар добавлен в избранное' 
-        : 'Товар удален из избранного',
-      type: 'success'
-    });
+    try {
+      if (isFavorite) {
+        const result = await WordPressAPI.addToWishlist(token, productId);
+        if (result.success) {
+          setProducts(prevProducts => 
+            prevProducts.map(product => 
+              product.id === productId 
+                ? { ...product, is_favorite: true }
+                : product
+            )
+          );
+          setToast({
+            isVisible: true,
+            message: 'Товар добавлен в избранное',
+            type: 'success'
+          });
+        } else {
+          setToast({
+            isVisible: true,
+            message: 'Ошибка добавления в избранное',
+            type: 'error'
+          });
+        }
+      } else {
+        const result = await WordPressAPI.removeFromWishlist(token, productId);
+        if (result.success) {
+          setProducts(prevProducts => 
+            prevProducts.map(product => 
+              product.id === productId 
+                ? { ...product, is_favorite: false }
+                : product
+            )
+          );
+          setToast({
+            isVisible: true,
+            message: 'Товар удален из избранного',
+            type: 'success'
+          });
+        } else {
+          setToast({
+            isVisible: true,
+            message: 'Ошибка удаления из избранного',
+            type: 'error'
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Ошибка работы с избранным:', error);
+      setToast({
+        isVisible: true,
+        message: 'Ошибка работы с избранным',
+        type: 'error'
+      });
+    }
   };
 
   const closeToast = () => {
@@ -70,16 +116,16 @@ export default function ProductGrid({ title, products: initialProducts }: Produc
           {products.map((product) => (
             <Link key={product.id} href={`/product/${product.id}`} className={styles.productCard}>
               <div className={styles.productImage}>
-                <img src={product.image} alt={product.name} />
+                <img src={product.image || ''} alt={product.name} />
                 <button 
-                  className={`${styles.heartButton} ${product.isFavorite ? styles.active : ''}`}
+                  className={`${styles.heartButton} ${product.is_favorite ? styles.active : ''}`}
                   onClick={(e) => toggleFavorite(product.id, e)}
                 >
                   <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path 
                       d="M10 17.25L8.55 15.925C4.4 12.25 1.5 9.65 1.5 6.5C1.5 3.95 3.45 2 6 2C7.2 2 8.35 2.45 9.25 3.25L10 4L10.75 3.25C11.65 2.45 12.8 2 14 2C16.55 2 18.5 3.95 18.5 6.5C18.5 9.65 15.6 12.25 11.45 15.925L10 17.25Z" 
-                      fill={product.isFavorite ? "#ff4757" : "transparent"} 
-                      stroke={product.isFavorite ? "#ff4757" : "#333"} 
+                      fill={product.is_favorite ? "#ff4757" : "transparent"} 
+                      stroke={product.is_favorite ? "#ff4757" : "#333"} 
                       strokeWidth="1.5"
                     />
                   </svg>
@@ -88,6 +134,20 @@ export default function ProductGrid({ title, products: initialProducts }: Produc
               <div className={styles.productInfo}>
                 <h3 className={styles.productName}>{product.name}</h3>
                 <p className={styles.productPrice}>{product.price}</p>
+                {product.characteristics && product.characteristics.length > 0 && (
+                  <div className={styles.characteristics}>
+                    {product.characteristics.slice(0, 2).map((characteristic, index) => (
+                      <span key={index} className={styles.characteristic}>
+                        {characteristic}
+                      </span>
+                    ))}
+                    {product.characteristics.length > 2 && (
+                      <span className={styles.moreCharacteristics}>
+                        +{product.characteristics.length - 2} еще
+                      </span>
+                    )}
+                  </div>
+                )}
                 <p className={styles.productStore}>Товар от магазина {product.store}</p>
                 <p className={styles.productDelivery}>Оплата и доставка -- напрямую</p>
               </div>

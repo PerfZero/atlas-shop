@@ -1,31 +1,206 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
+import { CategoryAPI, Category } from '../services/categoryApi';
 import styles from './CatalogNavigation.module.css';
 
 export default function CatalogNavigation() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [mainCategories, setMainCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [currentMainCategory, setCurrentMainCategory] = useState<Category | null>(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // Загружаем категории при монтировании компонента
+  useEffect(() => {
+    const loadCategories = async () => {
+      try {
+        setLoading(true);
+        console.log('Загружаем категории для навигации...');
+        
+        // Получаем все основные категории
+        const allCategoriesResponse = await CategoryAPI.getCategories();
+        if (!allCategoriesResponse.success) {
+          throw new Error('Ошибка загрузки категорий');
+        }
+        
+        // Сохраняем основные категории для выпадающего меню
+        setMainCategories(allCategoriesResponse.categories);
+        
+        // Определяем текущую категорию из URL
+        const currentSlug = pathname.split('/catalog/')[1];
+        if (currentSlug) {
+          const currentCat = allCategoriesResponse.categories.find(cat => cat.slug === currentSlug);
+          if (currentCat) {
+            setCurrentMainCategory(currentCat);
+            console.log('Установлена текущая категория:', currentCat.name);
+            
+            // Загружаем дочерние категории для текущей категории
+            const childrenResponse = await CategoryAPI.getCategoryChildren(currentCat.id);
+            if (childrenResponse.success && childrenResponse.children) {
+              setCategories(childrenResponse.children);
+              console.log('Подкатегории загружены:', childrenResponse.children);
+            } else {
+              console.warn('Нет дочерних категорий или ошибка загрузки:', childrenResponse);
+              setCategories([]);
+            }
+          } else {
+            // Если категория не найдена, используем "Для женщин" по умолчанию
+            const womenCategory = allCategoriesResponse.categories.find(cat => cat.id === 6);
+            if (womenCategory) {
+              setCurrentMainCategory(womenCategory);
+              console.log('Установлена категория по умолчанию:', womenCategory.name);
+              
+              const childrenResponse = await CategoryAPI.getCategoryChildren(6);
+              if (childrenResponse.success && childrenResponse.children) {
+                setCategories(childrenResponse.children);
+              } else {
+                setCategories([]);
+              }
+            } else {
+              setCategories([]);
+            }
+          }
+        } else {
+          // Если нет slug в URL, используем "Для женщин" по умолчанию
+          const womenCategory = allCategoriesResponse.categories.find(cat => cat.id === 6);
+          if (womenCategory) {
+            setCurrentMainCategory(womenCategory);
+            console.log('Установлена категория по умолчанию:', womenCategory.name);
+            
+            const childrenResponse = await CategoryAPI.getCategoryChildren(6);
+            if (childrenResponse.success && childrenResponse.children) {
+              setCategories(childrenResponse.children);
+            } else {
+              setCategories([]);
+            }
+          } else {
+            setCategories([]);
+          }
+        }
+      } catch (error) {
+        console.error('Ошибка загрузки категорий:', error);
+        setCategories([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadCategories();
+  }, []);
+
+  // Определяем активную категорию из URL
+  useEffect(() => {
+    if (pathname.startsWith('/catalog/')) {
+      const slug = pathname.split('/catalog/')[1];
+      setActiveCategory(slug);
+      
+      // Находим основную категорию по slug
+      const mainCat = mainCategories.find(cat => cat.slug === slug);
+      if (mainCat) {
+        setCurrentMainCategory(mainCat);
+      }
+    }
+  }, [pathname, mainCategories]);
+
+  const handleCategoryClick = (category: Category) => {
+    setActiveCategory(category.slug);
+    router.push(`/catalog/${category.slug}`);
+  };
+
+  const handleMainCategoryClick = () => {
+    // Переход на главную страницу каталога
+    router.push('/catalog');
+  };
+
+  const handleDropdownToggle = () => {
+    console.log('Клик по кнопке выпадающего меню, текущее состояние:', isDropdownOpen);
+    setIsDropdownOpen(!isDropdownOpen);
+    console.log('Новое состояние будет:', !isDropdownOpen);
+  };
+
+  const handleMainCategorySelect = (category: Category) => {
+    setIsDropdownOpen(false);
+    setCurrentMainCategory(category);
+    router.push(`/catalog/${category.slug}`);
+  };
+
+  // Закрываем выпадающее меню при клике вне его
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest(`.${styles.dropdownMenu}`)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    if (isDropdownOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isDropdownOpen]);
+
   return (
     <nav className={styles.navigation}>
       <div className={styles.navContent}>
         <div className={styles.dropdownMenu}>
-          <button className={styles.dropdownButton}>
-            <span>Для женщин</span>
-            <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <button 
+            className={`${styles.dropdownButton} ${isDropdownOpen ? styles.active : ''}`} 
+            onClick={handleDropdownToggle}
+          >
+            <span>{currentMainCategory ? currentMainCategory.name : 'Для женщин'}</span>
+            <svg 
+              width="12" 
+              height="8" 
+              viewBox="0 0 12 8" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className={isDropdownOpen ? styles.rotated : ''}
+            >
               <path d="M1 1L6 6L11 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
+          
+          {isDropdownOpen && (
+            <div className={styles.dropdownList}>
+              {mainCategories.map((category) => (
+                <button
+                  key={category.id}
+                  className={styles.dropdownItem}
+                  onClick={() => handleMainCategorySelect(category)}
+                >
+                  {category.name}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className={styles.separator}></div>
 
         <div className={styles.categoryButtons}>
-          <button className={`${styles.categoryButton} ${styles.active}`}>Абайя</button>
-          <button className={styles.categoryButton}>Платья</button>
-          <button className={styles.categoryButton}>Платки и хиджабы</button>
-          <button className={styles.categoryButton}>Кимары</button>
-          <button className={styles.categoryButton}>Костюмы</button>
-          <button className={styles.categoryButton}>Для Умры и Хаджа</button>
-          <button className={styles.categoryButton}>Молитвенные комплекты</button>
-          <button className={styles.categoryButton}>Капсульные</button>
+          {loading ? (
+            <div className={styles.loadingCategories}>Загрузка категорий...</div>
+          ) : categories.length > 0 ? (
+            categories.map((category) => (
+              <button 
+                key={category.id}
+                className={`${styles.categoryButton} ${activeCategory === category.slug ? styles.active : ''}`}
+                onClick={() => handleCategoryClick(category)}
+              >
+                {category.name}
+              </button>
+            ))
+          ) : (
+            <div className={styles.noCategories}>Категории не найдены</div>
+          )}
         </div>
 
         <div className={styles.separator}></div>

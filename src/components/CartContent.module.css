@@ -13,6 +13,27 @@
   align-items: center;
 }
 
+.titleActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.clearCartBtn {
+  font: 500 14px / 1.28571 var(--font-family);
+  color: #e74c3c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.clearCartBtn:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
 .title {
     font: 600 18px var(--font-family);
     color: var(--labels-primary);
@@ -45,7 +66,7 @@
     gap: 4px;
 
     padding: 16px 24px 16px 16px;
-width: 164px;
+width: max-content;
 background: #fff;
 height: 68px;
 }
@@ -181,15 +202,79 @@ border-left: 1px solid rgba(0, 0, 0, 0.1);
   gap: 8px;
 }
 
-.quantitySelect {
+.customSelect {
+  position: relative;
+  min-width: 60px;
+}
+
+.selectButton {
+  width: 100%;
   padding: 8px 12px;
   border: 1px solid #e0e0e0;
   border-radius: 4px;
   font: 400 14px var(--font-family);
   color: var(--labels-primary);
-
   background: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.selectButton:hover:not(:disabled) {
+  border-color: #ccc;
+}
+
+.selectButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.arrow {
+  transition: transform 0.2s;
+}
+
+.arrowUp {
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.option {
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  font: 400 14px var(--font-family);
+  color: var(--labels-primary);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.option:hover {
+  background-color: #f8f9fa;
+}
+
+.option.selected {
+  background-color: #e3f2fd;
+  color: #1976d2;
+  font-weight: 500;
 }
 
 .itemPrice {
@@ -211,6 +296,9 @@ border-left: 1px solid rgba(0, 0, 0, 0.1);
   font: 400 14px var(--font-family);
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 50px;
   flex: 1;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -234,17 +322,157 @@ border-left: 1px solid rgba(0, 0, 0, 0.1);
 
 
 @media (max-width: 768px) {
+  .cartContent {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .titleSection {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .titleActions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .clearCartBtn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .continueShoppingBtn {
+    font-size: 13px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+
+  .categories {
+    gap: 8px;
+    padding-bottom: 16px;
+  }
+
+  .category {
+    padding: 12px 16px;
+    height: auto;
+    min-height: 60px;
+  }
+
+  .categoryName {
+    font-size: 13px;
+  }
+
+  .categoryCount {
+    font-size: 11px;
+  }
+
+  .itemsList {
+    gap: 20px;
+  }
+
   .cartItem {
     flex-direction: column;
     gap: 16px;
+    padding: 16px;
   }
   
   .itemImage {
     width: 100%;
     height: 200px;
+    border-radius: 8px;
+  }
+
+
+  .itemHeader {
+    gap: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .itemSku {
+    font-size: 11px;
+  }
+
+  .itemContent{
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .itemName {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+
+  .itemSpecs {
+    gap: 8px;
+  }
+
+  .specItem {
+    gap: 6px;
+  }
+
+  .specLabel {
+    font-size: 12px;
+  }
+
+  .specValue {
+    font-size: 12px;
+  }
+
+  .itemQuantityPrice {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .itemQuantity {
+    width: 100%;
+  }
+
+  .customSelect {
+    width: 100%;
+  }
+
+  .selectButton {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .dropdown {
+    width: 100%;
+    max-height: 150px;
+  }
+
+  .option {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .itemPrice {
+    font-size: 16px;
   }
   
   .itemActions {
-    flex-direction: column;
+      gap: 8px;
+    border-left: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+
   }
-} 
+
+  .openProductBtn {
+    height: 44px;
+    font-size: 13px;
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .removeBtn {
+    height: 44px;
+    font-size: 13px;
+  }
+}

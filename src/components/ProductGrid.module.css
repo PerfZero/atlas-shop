@@ -94,6 +94,30 @@
     margin-bottom: 8px;
 }
 
+.characteristics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.characteristic {
+    font: 400 10px var(--font-family);
+    color: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.05);
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.moreCharacteristics {
+    font: 400 10px var(--font-family);
+    color: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.03);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
 .productStore {
     font: 500 12px var(--font-family);
     color: rgba(0, 0, 0, 0.5);
@@ -134,11 +158,12 @@ height: 56px;
 
 @media (max-width: 768px) {
   .productSection {
-    padding: 1rem;
+    padding: 16px;
   }
   
   .sectionTitle {
-    font-size: 2rem;
+    font-size: 24px;
+    margin-bottom: 1.5rem;
   }
   
   .productGrid {
@@ -147,10 +172,101 @@ height: 56px;
   }
   
   .productImage {
-    height: 300px;
+    height: 280px;
   }
   
   .productInfo {
-    padding: 1rem;
+    padding: 12px 0;
+  }
+
+  .productName {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+
+  .productPrice {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .characteristics {
+    gap: 3px;
+    margin-bottom: 6px;
+  }
+
+  .characteristic {
+    font-size: 10px;
+    padding: 2px 4px;
+  }
+
+  .productStore,
+  .productDelivery {
+    font-size: 11px;
+  }
+
+  .loadMoreButton {
+    width: 100%;
+    max-width: 280px;
+    padding: 14px 0;
+    font-size: 14px;
+    height: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .productSection {
+    padding: 12px;
+  }
+  
+  .sectionTitle {
+    font-size: 20px;
+    margin-bottom: 1rem;
+  }
+  
+  .productGrid {
+    gap: 0.75rem;
+  }
+  
+  .productImage {
+    height: 240px;
+  }
+  
+  .productInfo {
+    padding: 10px 0;
+  }
+
+  .productName {
+    font-size: 15px;
+  }
+
+  .productPrice {
+    font-size: 13px;
+  }
+
+  .characteristics {
+    gap: 2px;
+  }
+
+  .characteristic {
+    font-size: 9px;
+    padding: 1px 3px;
+  }
+
+  .productStore,
+  .productDelivery {
+    font-size: 10px;
+  }
+
+  .loadMoreButton {
+    max-width: 250px;
+    padding: 12px 0;
+    font-size: 13px;
+    height: 44px;
+  }
+
+  .heartButton {
+    top: 8px;
+    right: 8px;
+    padding: 6px;
   }
 } 

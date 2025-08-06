@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import styles from './ProductsSection.module.css';
 
 export default function ProductsSection() {
@@ -33,6 +34,8 @@ export default function ProductsSection() {
   return (
     <section className={styles.products}>
       <h2 className={styles.productsTitle}>Ограниченное предложение</h2>
+      
+      {/* Десктопная версия */}
       <div className={styles.productsGrid}>
         {products.map((product, index) => (
           <div key={index} className={styles.productCard}>
@@ -49,6 +52,29 @@ export default function ProductsSection() {
           </div>
         ))}
       </div>
+
+      {/* Мобильная версия - слайдер */}
+      <div className={styles.mobileSlider}>
+        <div className={styles.sliderContainer}>
+          <div className={styles.sliderTrack}>
+            {products.map((product, index) => (
+              <div key={index} className={styles.productCard}>
+                <div className={styles.productImage}>
+                  <img src={product.image} alt={product.name} />
+                </div>
+                <div className={styles.productInfo}>
+                    <div className={styles.productNameContainer}>
+                  <h3 className={styles.productName}>{product.name}</h3>
+                  <p className={styles.productCategory}>/ {product.category}</p>
+                  </div>
+                  <p className={styles.productPrice}>{product.price}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className={styles.ctaContainer}>
         <a href="#" className={styles.ctaButton}>Перейти к покупкам</a>
       </div>

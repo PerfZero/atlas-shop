@@ -24,4 +24,47 @@
   .checkoutContainer {
     padding: 20px 16px;
   }
+}
+
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  font: 500 16px var(--font-family);
+  color: var(--labels-primary);
+}
+
+.error {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 8px;
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+.error h2 {
+  font: 600 24px var(--font-family);
+  color: var(--labels-primary);
+  margin-bottom: 16px;
+}
+
+.error p {
+  font: 400 16px var(--font-family);
+  color: #606367;
+  margin-bottom: 24px;
+}
+
+.loginBtn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--primary-color);
+  color: white;
+  font: 500 16px var(--font-family);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.loginBtn:hover {
+  background: var(--primary-hover);
 } 

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { IMaskInput } from 'react-imask';
+import { useAuth } from '../hooks/useAuth';
 import styles from './AuthModal.module.css';
 
 interface AuthModalProps {
@@ -13,38 +15,43 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [smsCode, setSmsCode] = useState('');
   const [showSmsField, setShowSmsField] = useState(false);
   const [smsError, setSmsError] = useState('');
+  const { login, sendSmsCode } = useAuth();
 
-  const formatPhoneNumber = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-    if (numbers.length === 0) return '';
-    if (numbers.length <= 1) return `+7 (${numbers}`;
-    if (numbers.length <= 4) return `+7 (${numbers.slice(0, 3)}`;
-    if (numbers.length <= 7) return `+7 (${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}`;
-    if (numbers.length <= 9) return `+7 (${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(6, 8)}`;
-    return `+7 (${numbers.slice(0, 3)}) ${numbers.slice(3, 6)}-${numbers.slice(6, 8)}-${numbers.slice(8, 10)}`;
-  };
 
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatPhoneNumber(e.target.value);
-    setPhone(formatted);
-  };
 
-  const handlePhoneSubmit = () => {
+  const handlePhoneSubmit = async () => {
     const numbers = phone.replace(/\D/g, '');
-    if (numbers.length >= 10) {
-      setShowSmsField(true);
+    if (numbers.length === 11 && numbers.startsWith('7')) {
+      try {
+        const result = await sendSmsCode(numbers);
+        if (result.success) {
+          setShowSmsField(true);
+          setSmsError(''); // Очищаем ошибки при успехе
+        } else {
+          setSmsError(result.message || 'Ошибка отправки SMS');
+        }
+      } catch (error: any) {
+        console.error('Ошибка отправки SMS:', error);
+        setSmsError(error.message || 'Ошибка отправки SMS');
+      }
+    } else {
+      setSmsError('Введите корректный номер телефона');
     }
   };
 
-  const handleSmsSubmit = () => {
-    if (smsCode === '12345') {
-      setSmsError('Неверный код');
-    } else if (smsCode === '1234') {
-      // Успешная авторизация с правильным кодом
-      onClose();
-      window.location.href = '/profile';
-    } else if (smsCode.length > 0) {
-      setSmsError('Неверный код');
+  const handleSmsSubmit = async () => {
+    try {
+      const numbers = phone.replace(/\D/g, '');
+      const result = await login(numbers, smsCode);
+      
+      if (result.success) {
+        onClose();
+        window.location.href = '/profile';
+      } else {
+        setSmsError(result.message || 'Неверный код');
+      }
+    } catch (error) {
+      setSmsError('Ошибка авторизации');
     }
   };
 
@@ -68,17 +75,22 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           <h2 className={styles.title}>Идентификация</h2>
 
           <div className={styles.form}>
-            <div className={styles.field}>
-              <label htmlFor="phone">Номер телефона *</label>
-                             <input
-                 type="tel"
-                 id="phone"
+                         <div className={styles.field}>
+               <label htmlFor="phone">Номер телефона *</label>
+               <IMaskInput
+                 mask="+7 (000) 000-00-00"
                  value={phone}
-                 onChange={handlePhoneChange}
-                 placeholder="+7 (---) --- -- --"
+                 onAccept={(value) => setPhone(value)}
+                 placeholder="+7 (___) ___-__-__"
                  className={styles.input}
+                 unmask={false}
                />
-            </div>
+               {smsError && !showSmsField && (
+                 <div className={styles.errorMessage}>
+                   {smsError}
+                 </div>
+               )}
+             </div>
 
             {showSmsField && (
               <div className={styles.field}>

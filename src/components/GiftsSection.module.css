@@ -54,8 +54,9 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: 60vh;
-    min-height: 400px;
+    height: 80vh;
+    min-height: 600px;
+    margin-top: 1rem;
   }
   
   .title {
@@ -63,7 +64,7 @@
   }
   
   .textOverlay {
-    padding: 2rem;
+    padding: 0rem;
   }
   
   .category {

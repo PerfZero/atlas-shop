@@ -13,6 +13,8 @@
   align-items: start;
 }
 
+
+
 @media (max-width: 1024px) {
   .cartContainer {
     grid-template-columns: 1fr;

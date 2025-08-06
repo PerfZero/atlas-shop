@@ -18,21 +18,21 @@ export default function CartSummary({ total }: CartSummaryProps) {
         <div className={styles.summaryDetails}>
           <div className={styles.summaryRow}>
             <span>Итого</span>
-            <span>〒 {total.toLocaleString()}</span>
+            <span>{total.toLocaleString()} ₸</span>
           </div>
           <div className={styles.summaryRow}>
             <span>Доставка</span>
-            <span>〒 {delivery.toLocaleString()}</span>
+            <span>{delivery.toLocaleString()} ₸</span>
           </div>
           <div className={styles.summaryRow}>
             <span>Налоги/НДС</span>
-            <span>〒 {taxes.toLocaleString()}</span>
+            <span>{taxes.toLocaleString()} ₸</span>
           </div>
         </div>
         
         <div className={styles.finalTotal}>
           <span>К оплате</span>
-          <span>〒 {finalTotal.toLocaleString()}</span>
+          <span>{finalTotal.toLocaleString()} ₸</span>
         </div>
         
         <a href="/checkout" className={styles.continueBtn}>
