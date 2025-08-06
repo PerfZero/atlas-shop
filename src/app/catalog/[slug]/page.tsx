@@ -12,12 +12,21 @@ import PlatformSection from '../../../components/PlatformSection';
 import AtlasFooter from '../../../components/AtlasFooter';
 import styles from '../page.module.css';
 
+interface SimpleProduct {
+  id: number;
+  name: string;
+  price: string;
+  store: string;
+  image: string;
+  is_favorite: boolean;
+}
+
 export default function CategoryPage() {
   const params = useParams();
   const slug = params.slug as string;
   
   const [category, setCategory] = useState<Category | null>(null);
-  const [products, setProducts] = useState<CategoryProduct[]>([]);
+  const [products, setProducts] = useState<SimpleProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -49,11 +58,19 @@ export default function CategoryPage() {
         // Загружаем товары категории
         const productsResponse = await CategoryAPI.getCategoryProducts(foundCategory.id, 1, 12, token || undefined);
         if (productsResponse.success) {
-          // Используем товары напрямую, так как они уже имеют правильный формат
-          setProducts(productsResponse.products);
-          console.log('Товары категории загружены:', productsResponse.products);
+          // Преобразуем товары в формат SimpleProduct
+          const simpleProducts = productsResponse.products.map(product => ({
+            id: product.id,
+            name: product.name,
+            price: product.price,
+            store: product.store,
+            image: product.image || '',
+            is_favorite: product.is_favorite
+          }));
+          setProducts(simpleProducts);
+          console.log('Товары категории загружены:', simpleProducts);
           console.log('Проверяем is_favorite для каждого товара:');
-          productsResponse.products.forEach(product => {
+          simpleProducts.forEach(product => {
             console.log(`Товар ${product.id} (${product.name}): is_favorite = ${product.is_favorite}`);
           });
         } else {

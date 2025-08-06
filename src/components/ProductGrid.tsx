@@ -13,6 +13,7 @@ interface SimpleProduct {
   store: string;
   image: string;
   is_favorite: boolean;
+  characteristics?: string[];
 }
 import { WordPressAPI } from '../services/wordpressApi';
 

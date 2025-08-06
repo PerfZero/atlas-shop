@@ -64,8 +64,10 @@ export default function ProfilePage() {
     id: number;
     name: string;
     price: string;
+    store: string;
     image: string;
-    sku: string;
+    is_favorite: boolean;
+    characteristics?: string[];
   }>>([]);
   const [wishlistLoading, setWishlistLoading] = useState(false);
   
