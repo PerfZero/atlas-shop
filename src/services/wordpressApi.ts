@@ -79,7 +79,7 @@ export class WordPressAPI {
   }
 
   // Сохранение данных пользователя
-  static saveUserData(token: string, userData: any) {
+  static saveUserData(token: string, userData: unknown) {
     if (typeof window !== 'undefined') {
       localStorage.setItem('atlas_token', token);
       localStorage.setItem('atlas_user', JSON.stringify(userData));
@@ -104,7 +104,7 @@ export class WordPressAPI {
   }
 
   // Сохранение профиля пользователя
-  static async saveUserProfile(token: string, profileData: any) {
+  static async saveUserProfile(token: string, profileData: unknown) {
     try {
       const response = await fetch(`${WORDPRESS_API_URL}/atlas/v1/user/profile/save`, {
         method: 'POST',

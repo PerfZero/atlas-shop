@@ -131,9 +131,9 @@ export default function CheckoutPage() {
           <div className={styles.error}>
             <h2>Корзина пуста</h2>
             <p>Для оформления заказа добавьте товары в корзину</p>
-            <a href="/catalog" className={styles.loginBtn}>
+            <Link href="/catalog" className={styles.loginBtn}>
               Перейти в каталог
-            </a>
+            </Link>
           </div>
         </div>
         <AtlasFooter />

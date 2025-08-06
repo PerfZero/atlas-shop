@@ -9,7 +9,7 @@ declare module 'react-imask' {
     lazy?: boolean;
     placeholderChar?: string;
     definitions?: { [key: string]: RegExp };
-    blocks?: { [key: string]: any };
+    blocks?: { [key: string]: unknown };
     pattern?: string;
     format?: (value: string) => string;
     parse?: (value: string) => string;
@@ -23,12 +23,12 @@ declare module 'react-imask' {
     normalizeZeros?: boolean;
     min?: number;
     max?: number;
-    dispatch?: (appended: string, dynamicMasked: any) => string;
+    dispatch?: (appended: string, dynamicMasked: unknown) => string;
     overwrite?: boolean | 'shift' | boolean;
     eager?: boolean | 'remove' | 'append' | boolean;
     skipInvalid?: boolean;
     showMask?: boolean;
-    maskRef?: (mask: any) => void;
+    maskRef?: (mask: unknown) => void;
     inputRef?: (input: HTMLInputElement) => void;
   }
 

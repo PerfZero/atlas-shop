@@ -30,9 +30,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         } else {
           setSmsError(result.message || 'Ошибка отправки SMS');
         }
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('Ошибка отправки SMS:', error);
-        setSmsError(error.message || 'Ошибка отправки SMS');
+        setSmsError((error as Error)?.message || 'Ошибка отправки SMS');
       }
     } else {
       setSmsError('Введите корректный номер телефона');

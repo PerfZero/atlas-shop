@@ -75,10 +75,10 @@ export function useAuth() {
     try {
       const result = await WordPressAPI.sendSmsCode(phone);
       return result;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('SMS Error:', error);
-      if (error.message) {
-        throw new Error(error.message);
+      if ((error as Error)?.message) {
+        throw new Error((error as Error).message);
       }
       throw new Error('Ошибка отправки SMS');
     }

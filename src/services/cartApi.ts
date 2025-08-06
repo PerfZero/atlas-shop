@@ -201,7 +201,7 @@ export class CartApi {
     }
   }
 
-  static async getCartWithCategories(token?: string): Promise<CartResponse & { categories: any[] }> {
+  static async getCartWithCategories(token?: string): Promise<CartResponse & { categories: unknown[] }> {
     try {
       const response = await fetch(`${this.baseUrl}/atlas/v1/cart/with-categories`, {
         method: 'GET',
