@@ -123,16 +123,16 @@ export default function AtlasHeader() {
         </div>
 
         <div className={styles.logo}>
-          <a href="/">
+          <Link href="/">
             <img src="/logo.svg" alt="Atlas Store" />
-          </a>
+          </Link>
         </div>
 
         <div className={styles.rightSection}>
           <div className={styles.contactLink}>
             <span>Контакты</span>
           </div>
-          <a href="/profile?tab=wishlist" className={styles.iconButton}>
+          <Link href="/profile?tab=wishlist" className={styles.iconButton}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_2002_42)">
                 <path d="M0.142822 5.16741C0.142822 8.02011 2.53345 10.8259 6.31025 13.2366C6.45088 13.3237 6.65174 13.4174 6.79237 13.4174C6.93299 13.4174 7.13391 13.3237 7.28122 13.2366C11.0513 10.8259 13.4419 8.02011 13.4419 5.16741C13.4419 2.79687 11.8147 1.12276 9.64505 1.12276C8.40619 1.12276 7.40174 1.71205 6.79237 2.61607C6.19642 1.71875 5.17854 1.12276 3.9397 1.12276C1.77006 1.12276 0.142822 2.79687 0.142822 5.16741ZM1.22095 5.16741C1.22095 3.38616 2.37273 2.20089 3.92630 2.20089C5.18523 2.20089 5.90842 2.98437 6.33699 3.65401C6.51779 3.92187 6.63168 3.99553 6.79237 3.99553C6.95311 3.99553 7.05357 3.91517 7.24774 3.65401C7.70979 2.99776 8.40619 2.20089 9.65842 2.20089C11.212 2.20089 12.3638 3.38616 12.3638 5.16741C12.3638 7.65845 9.73208 10.3438 6.93299 12.2054C6.86602 12.2522 6.81917 12.2857 6.79237 12.2857C6.76557 12.2857 6.71871 12.2522 6.65842 12.2054C3.85265 10.3438 1.22095 7.65845 1.22095 5.16741Z" fill="currentColor" />
@@ -146,7 +146,7 @@ export default function AtlasHeader() {
             {wishlistCount > 0 && (
               <span className={styles.wishlistCount}>{wishlistCount}</span>
             )}
-          </a>
+          </Link>
           <button className={styles.iconButton} onClick={handleUserClick}>
             <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_2002_46)">
@@ -164,12 +164,12 @@ export default function AtlasHeader() {
               </div>
             )}
           </button>
-          <a href="/cart" className={styles.cartButton}>
+          <Link href="/cart" className={styles.cartButton}>
             <svg width="13" height="14" viewBox="0 0 13 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2.38845 13.6161H10.2702C11.4688 13.6161 12.1719 12.9197 12.1719 11.5402V4.60938C12.1719 3.22991 11.4621 2.53348 10.0693 2.53348H2.38845C0.988892 2.53348 0.285767 3.22321 0.285767 4.60938V11.5402C0.285767 12.9263 0.988892 13.6161 2.38845 13.6161ZM2.40184 12.5379C1.7322 12.5379 1.36389 12.183 1.36389 11.4866V4.66295C1.36389 3.96652 1.7322 3.61161 2.40184 3.61161H10.0491C10.7121 3.61161 11.0938 3.96652 11.0938 4.66295V11.4866C11.0938 12.183 10.7121 12.5379 10.2501 12.5379H2.40184ZM3.5871 2.79464L4.66523 2.80134C4.66523 1.84375 5.29469 1.16072 6.22548 1.16072C7.15628 1.16072 7.79245 1.84375 7.79245 2.80134L8.87057 2.79464C8.87057 1.31473 7.72548 0.14286 6.22548 0.14286C4.7255 0.14286 3.5871 1.31473 3.5871 2.79464Z" fill="currentColor" />
             </svg>
             <span className={styles.cartCount}>{cartCount}</span>
-          </a>
+          </Link>
         </div>
       </div>
 

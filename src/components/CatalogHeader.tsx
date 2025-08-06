@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import styles from './AtlasHeader.module.css';
 import AuthModal from './AuthModal';
 import { useCart } from '../contexts/CartContext';
@@ -74,16 +75,16 @@ export default function CatalogHeader() {
         </div>
 
         <div className={styles.logo}>
-          <a href="/">
+          <Link href="/">
             <img src="/logo.svg" alt="Atlas Store" />
-          </a>
+          </Link>
         </div>
 
         <div className={styles.rightSection}>
           <div className={styles.contactLink}>
             <span>Контакты</span>
           </div>
-          <a href="/profile?tab=wishlist" className={styles.iconButton}>
+          <Link href="/profile?tab=wishlist" className={styles.iconButton}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_2002_42)">
                 <path d="M0.142822 5.16741C0.142822 8.02011 2.53345 10.8259 6.31025 13.2366C6.45088 13.3237 6.65174 13.4174 6.79237 13.4174C6.93299 13.4174 7.13391 13.3237 7.28122 13.2366C11.0513 10.8259 13.4419 8.02011 13.4419 5.16741C13.4419 2.79687 11.8147 1.12276 9.64505 1.12276C8.40619 1.12276 7.40174 1.71205 6.79237 2.61607C6.19642 1.71875 5.17854 1.12276 3.9397 1.12276C1.77006 1.12276 0.142822 2.79687 0.142822 5.16741ZM1.22095 5.16741C1.22095 3.38616 2.37273 2.20089 3.92630 2.20089C5.18523 2.20089 5.90842 2.98437 6.33699 3.65401C6.51779 3.92187 6.63168 3.99553 6.79237 3.99553C6.95311 3.99553 7.05357 3.91517 7.24774 3.65401C7.70979 2.99776 8.40619 2.20089 9.65842 2.20089C11.212 2.20089 12.3638 3.38616 12.3638 5.16741C12.3638 7.65845 9.73208 10.3438 6.93299 12.2054C6.86602 12.2522 6.81917 12.2857 6.79237 12.2857C6.76557 12.2857 6.71871 12.2522 6.65842 12.2054C3.85265 10.3438 1.22095 7.65845 1.22095 5.16741Z" fill="currentColor" />
@@ -97,7 +98,7 @@ export default function CatalogHeader() {
             {wishlistCount > 0 && (
               <span className={styles.wishlistCount}>{wishlistCount}</span>
             )}
-          </a>
+          </Link>
           <button className={styles.iconButton} onClick={handleUserClick}>
             <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g clipPath="url(#clip0_2002_46)">
